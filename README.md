@@ -64,10 +64,6 @@ npm run dev
 
 The app will be available at `http://localhost:5173`, with the backend running on `http://localhost:5000`.
 
-## 📸 Screenshots
-
-*(Add screenshots of your Login, Dashboard, Games, and Leaderboard pages here)*
-
 ## 👩‍💻 Author
 
 **Sakshi Choken**
