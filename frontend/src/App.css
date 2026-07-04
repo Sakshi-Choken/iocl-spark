@@ -1,0 +1,36 @@
+:root {
+  --iocl-navy: #003876;
+  --iocl-red: #C81E2C;
+  --iocl-light-bg: #f4f6f9;
+}
+
+body {
+  background-color: var(--iocl-light-bg);
+}
+
+.iocl-navbar {
+  background-color: var(--iocl-navy) !important;
+}
+
+.iocl-btn-primary {
+  background-color: var(--iocl-navy);
+  border-color: var(--iocl-navy);
+  color: white;
+}
+
+.iocl-btn-primary:hover {
+  background-color: #002a5c;
+  border-color: #002a5c;
+  color: white;
+}
+
+.iocl-auth-card {
+  border-top: 5px solid var(--iocl-red);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.iocl-heading {
+  color: var(--iocl-navy);
+  font-weight: 700;
+}
