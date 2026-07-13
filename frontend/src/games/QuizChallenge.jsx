@@ -2,45 +2,121 @@ import { useState, useContext } from 'react';
 import api from '../services/api';
 import { AuthContext } from '../context/AuthContext';
 
-const questions = [
+const questionBank = [
   {
-    question: 'What does IOCL stand for?',
-    options: [
-      'Indian Oil Corporation Limited',
-      'Indian Overseas Company Limited',
-      'International Oil Corporation Limited',
-      'Indian Ocean Company Limited',
-    ],
-    answer: 'Indian Oil Corporation Limited',
+    question: 'I speak without a mouth and hear without ears. I have no body, but I come alive with the wind. What am I?',
+    options: ['Echo', 'Shadow', 'Ghost', 'Whisper'],
+    answer: 'Echo',
   },
   {
-    question: 'Which of these is a renewable energy source?',
-    options: ['Coal', 'Natural Gas', 'Solar Power', 'Petroleum'],
-    answer: 'Solar Power',
+    question: 'The more you take, the more you leave behind. What am I?',
+    options: ['Time', 'Memories', 'Footsteps', 'Money'],
+    answer: 'Footsteps',
   },
   {
-    question: 'What is the full form of LPG?',
-    options: [
-      'Liquid Propane Gas',
-      'Liquefied Petroleum Gas',
-      'Low Pressure Gas',
-      'Light Petroleum Gas',
-    ],
-    answer: 'Liquefied Petroleum Gas',
+    question: 'What has keys but no locks, space but no room, and you can enter but not go inside?',
+    options: ['A Piano', 'A Keyboard', 'A Map', 'A Safe'],
+    answer: 'A Keyboard',
   },
   {
-    question: 'Which fuel is commonly used in aircraft?',
-    options: ['Petrol', 'Diesel', 'Aviation Turbine Fuel', 'Kerosene'],
-    answer: 'Aviation Turbine Fuel',
+    question: 'What comes once in a minute, twice in a moment, but never in a thousand years?',
+    options: ['The letter M', 'A second', 'A blink', 'A heartbeat'],
+    answer: 'The letter M',
   },
   {
-    question: 'Refineries convert crude oil into which of these?',
-    options: ['Only Petrol', 'Only Diesel', 'Multiple Products', 'Only Plastic'],
-    answer: 'Multiple Products',
+    question: 'What has a neck but no head?',
+    options: ['A bottle', 'A shirt', 'A guitar', 'A road'],
+    answer: 'A bottle',
+  },
+  {
+    question: 'What month of the year has 28 days?',
+    options: ['February', 'All of them', 'April', 'None of them'],
+    answer: 'All of them',
+  },
+  {
+    question: 'What can travel around the world while staying in a corner?',
+    options: ['A stamp', 'A coin', 'A map', 'A shadow'],
+    answer: 'A stamp',
+  },
+  {
+    question: 'What has to be broken before you can use it?',
+    options: ['An egg', 'A promise', 'A rule', 'A lock'],
+    answer: 'An egg',
+  },
+  {
+    question: 'I am tall when I am young, and short when I am old. What am I?',
+    options: ['A tree', 'A candle', 'A person', 'A shadow'],
+    answer: 'A candle',
+  },
+  {
+    question: 'What gets wetter the more it dries?',
+    options: ['A sponge', 'A towel', 'Rain', 'The ocean'],
+    answer: 'A towel',
+  },
+  {
+    question: 'What has one eye but cannot see?',
+    options: ['A needle', 'A storm', 'A potato', 'A camera'],
+    answer: 'A needle',
+  },
+  {
+    question: 'What building has the most stories?',
+    options: ['A library', 'A skyscraper', 'A museum', 'A castle'],
+    answer: 'A library',
+  },
+  {
+    question: 'Which word becomes shorter when you add two letters to it?',
+    options: ['Short', 'Long', 'Tiny', 'Small'],
+    answer: 'Short',
+  },
+  {
+    question: 'What is full of holes but still holds water?',
+    options: ['A sponge', 'A net', 'A bucket', 'A pipe'],
+    answer: 'A sponge',
+  },
+  {
+    question: 'What has hands but cannot clap?',
+    options: ['A clock', 'A statue', 'A glove', 'A robot'],
+    answer: 'A clock',
+  },
+  {
+    question: 'You see a boat full of people, yet there is not a single person on board. How?',
+    options: ["They're all married", "They're all invisible", "It's a toy boat", 'They swam away'],
+    answer: "They're all married",
+  },
+  {
+    question: 'What can you catch but not throw?',
+    options: ['A cold', 'A ball', 'A fish', 'A thief'],
+    answer: 'A cold',
+  },
+  {
+    question: 'If you have three apples and take away two, how many do you have?',
+    options: ['Two', 'One', 'Three', 'Zero'],
+    answer: 'Two',
+  },
+  {
+    question: 'What is always in front of you but can never be seen?',
+    options: ['The future', 'The air', 'Your nose', 'Tomorrow'],
+    answer: 'The future',
+  },
+  {
+    question: 'A farmer has 17 sheep, and all but 9 run away. How many are left?',
+    options: ['9', '8', '17', '0'],
+    answer: '9',
   },
 ];
 
+// Shuffle helper (Fisher-Yates)
+const shuffleArray = (array) => {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+};
+
 function QuizChallenge() {
+  const [questions] = useState(() => shuffleArray(questionBank).slice(0, 5));
   const [currentQ, setCurrentQ] = useState(0);
   const [selected, setSelected] = useState(null);
   const [correctCount, setCorrectCount] = useState(0);
@@ -69,7 +145,8 @@ function QuizChallenge() {
     }
   };
 
-  const submitScore = async (score) => {
+  const submitScore = async () => {
+    const score = correctCount * 20;
     setSubmitting(true);
     try {
       const response = await api.post('/games/submit-score', {
@@ -94,24 +171,22 @@ function QuizChallenge() {
     }
   };
 
-  const resetQuiz = () => {
-    setCurrentQ(0);
-    setSelected(null);
-    setCorrectCount(0);
-    setQuizOver(false);
-    setMessage('');
-  };
-
   if (quizOver) {
+    const percentage = Math.round((correctCount / questions.length) * 100);
+    let feedback = 'Keep practicing! 🧩';
+    if (percentage === 100) feedback = 'Genius! Perfect Score! 🧠🎉';
+    else if (percentage >= 60) feedback = 'Great job! 👏';
+
     return (
       <div className="text-center">
         <h3>Quiz Complete! 🎉</h3>
         <p>
           You got {correctCount} out of {questions.length} correct
         </p>
+        <h5 className="text-primary">{feedback}</h5>
         {submitting && <p>Saving score...</p>}
         {message && <p className="text-primary">{message}</p>}
-        <button className="btn btn-primary mt-2" onClick={resetQuiz}>
+        <button className="btn iocl-btn-primary mt-2" onClick={() => window.location.reload()}>
           Play Again
         </button>
       </div>
@@ -120,7 +195,7 @@ function QuizChallenge() {
 
   return (
     <div className="text-center">
-      <h3>Quiz Challenge</h3>
+      <h3>Quiz Challenge — Brain Teasers 🧩</h3>
       <p className="text-muted">
         Question {currentQ + 1} of {questions.length}
       </p>
@@ -141,7 +216,7 @@ function QuizChallenge() {
             <button
               key={index}
               className={btnClass}
-              style={{ width: '300px' }}
+              style={{ width: '320px' }}
               onClick={() => handleOptionClick(option)}
               disabled={selected !== null}
             >
@@ -152,7 +227,7 @@ function QuizChallenge() {
       </div>
 
       {selected && (
-        <button className="btn btn-primary mt-4" onClick={handleNext}>
+        <button className="btn iocl-btn-primary mt-4" onClick={handleNext}>
           {currentQ + 1 < questions.length ? 'Next Question' : 'Finish Quiz'}
         </button>
       )}
