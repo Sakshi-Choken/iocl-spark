@@ -6,6 +6,9 @@ import ReactionTest from '../games/ReactionTest';
 import SpinWheel from '../games/SpinWheel';
 import MemoryMatch from '../games/MemoryMatch';
 import SpeedTyping from '../games/SpeedTyping';
+import FlappyBird from '../games/FlappyBird';
+import EmojiGuess from '../games/EmojiGuess';
+import SimonSays from '../games/SimonSays';
 function Games() {
   const [selectedGame, setSelectedGame] = useState(null);
 
@@ -60,6 +63,54 @@ function Games() {
                 <button
                   className="btn iocl-btn-primary mt-2"
                   onClick={() => setSelectedGame('speedtyping')}
+                >
+                  Play Now
+                </button>
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div
+                className="card p-4 text-center shadow-sm border-0"
+                style={{ borderTop: '4px solid #C81E2C' }}
+              >
+                <h1 style={{ fontSize: '2.5rem' }}>🐦</h1>
+                <h5 className="iocl-heading">Flappy Bird</h5>
+                <p className="text-muted small">Classic arcade fun — how far can you fly?</p>
+                <button
+                  className="btn iocl-btn-primary mt-2"
+                  onClick={() => setSelectedGame('flappybird')}
+                >
+                  Play Now
+                </button>
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div
+                className="card p-4 text-center shadow-sm border-0"
+                style={{ borderTop: '4px solid #C81E2C' }}
+              >
+                <h1 style={{ fontSize: '2.5rem' }}>🎭</h1>
+                <h5 className="iocl-heading">Emoji Guess</h5>
+                <p className="text-muted small">Guess movies and phrases from emoji clues!</p>
+                <button
+                  className="btn iocl-btn-primary mt-2"
+                  onClick={() => setSelectedGame('emojiguess')}
+                >
+                  Play Now
+                </button>
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div
+                className="card p-4 text-center shadow-sm border-0"
+                style={{ borderTop: '4px solid #C81E2C' }}
+              >
+                <h1 style={{ fontSize: '2.5rem' }}>🎨</h1>
+                <h5 className="iocl-heading">Simon Says</h5>
+                <p className="text-muted small">Remember the sequence — how far can you go?</p>
+                <button
+                  className="btn iocl-btn-primary mt-2"
+                  onClick={() => setSelectedGame('simonsays')}
                 >
                   Play Now
                 </button>
@@ -132,6 +183,9 @@ function Games() {
             {selectedGame === 'spinwheel' && <SpinWheel />}
             {selectedGame === 'memorymatch' && <MemoryMatch />}
             {selectedGame === 'speedtyping' && <SpeedTyping />}
+            {selectedGame === 'flappybird' && <FlappyBird />}
+            {selectedGame === 'emojiguess' && <EmojiGuess />}
+            {selectedGame === 'simonsays' && <SimonSays />}
           </div>
         )}
       </div>

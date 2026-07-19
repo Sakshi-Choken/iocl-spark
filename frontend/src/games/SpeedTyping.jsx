@@ -34,7 +34,9 @@ function SpeedTyping() {
     if (value.length > target.length) return;
     setTyped(value);
 
-    if (value === target) {
+    // Finish once the typed length reaches the target length,
+    // even if there are mistakes (accuracy will reflect them)
+    if (value.length === target.length) {
       finishTest(value, startTime || Date.now());
     }
   };
