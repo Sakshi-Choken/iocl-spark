@@ -5,7 +5,7 @@ import QuizChallenge from '../games/QuizChallenge';
 import ReactionTest from '../games/ReactionTest';
 import SpinWheel from '../games/SpinWheel';
 import MemoryMatch from '../games/MemoryMatch';
-
+import SpeedTyping from '../games/SpeedTyping';
 function Games() {
   const [selectedGame, setSelectedGame] = useState(null);
 
@@ -44,6 +44,22 @@ function Games() {
                 <button
                   className="btn iocl-btn-primary mt-2"
                   onClick={() => setSelectedGame('memorymatch')}
+                >
+                  Play Now
+                </button>
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div
+                className="card p-4 text-center shadow-sm border-0"
+                style={{ borderTop: '4px solid #C81E2C' }}
+              >
+                <h1 style={{ fontSize: '2.5rem' }}>⌨️</h1>
+                <h5 className="iocl-heading">Speed Typing</h5>
+                <p className="text-muted small">Test your typing speed and accuracy!</p>
+                <button
+                  className="btn iocl-btn-primary mt-2"
+                  onClick={() => setSelectedGame('speedtyping')}
                 >
                   Play Now
                 </button>
@@ -115,6 +131,7 @@ function Games() {
             {selectedGame === 'reaction' && <ReactionTest />}
             {selectedGame === 'spinwheel' && <SpinWheel />}
             {selectedGame === 'memorymatch' && <MemoryMatch />}
+            {selectedGame === 'speedtyping' && <SpeedTyping />}
           </div>
         )}
       </div>
