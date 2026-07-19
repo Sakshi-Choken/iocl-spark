@@ -5,12 +5,12 @@ import { AuthContext } from '../context/AuthContext';
 const WIDTH = 360;
 const HEIGHT = 480;
 const BIRD_SIZE = 22;
-const GRAVITY = 0.45;
-const FLAP_STRENGTH = -7.5;
+const GRAVITY = 0.28;
+const FLAP_STRENGTH = -6;
 const PIPE_WIDTH = 55;
-const PIPE_GAP = 140;
-const PIPE_SPEED = 2.6;
-const PIPE_SPACING = 200;
+const PIPE_GAP = 190;
+const PIPE_SPEED = 1.6;
+const PIPE_SPACING = 260;
 
 function FlappyBird() {
   const canvasRef = useRef(null);
