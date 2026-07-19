@@ -11,6 +11,8 @@ function AdminDashboard() {
   const [posting, setPosting] = useState(false);
   const [postMsg, setPostMsg] = useState('');
   const [announcements, setAnnouncements] = useState([]);
+  const [loginHistory, setLoginHistory] = useState([]);
+  const [showLoginHistory, setShowLoginHistory] = useState(false);
 
   const handleCreateAnnouncement = async (e) => {
     e.preventDefault();
@@ -32,6 +34,7 @@ function AdminDashboard() {
   useEffect(() => {
     fetchEmployees();
     fetchAnnouncements();
+    fetchLoginHistory();
   }, []);
 
   const fetchEmployees = async () => {
@@ -50,6 +53,14 @@ function AdminDashboard() {
       setAnnouncements(response.data);
     } catch (err) {
       console.log('Failed to load announcements');
+    }
+  };
+  const fetchLoginHistory = async () => {
+    try {
+      const response = await api.get('/admin/login-history');
+      setLoginHistory(response.data);
+    } catch (err) {
+      console.log('Failed to load login history');
     }
   };
 
@@ -177,6 +188,50 @@ function AdminDashboard() {
                 ))}
               </tbody>
             </table>
+            <div className="mt-5">
+              <button
+                className="btn btn-outline-dark mb-3"
+                onClick={() => setShowLoginHistory(!showLoginHistory)}
+              >
+                {showLoginHistory ? 'Hide' : 'Show'} Login Activity 🔒 (Admin Only)
+              </button>
+
+              {showLoginHistory && (
+                <div className="card p-3">
+                  <h5 className="mb-3">Employee Login Activity</h5>
+                  {loginHistory.map((emp) => (
+                    <div key={emp._id} className="border-bottom pb-2 mb-2">
+                      <strong>{emp.name}</strong> ({emp.empId} — {emp.department})
+                      <br />
+                      <small className="text-muted">
+                        Last Login:{' '}
+                        {emp.lastLogin
+                          ? new Date(emp.lastLogin).toLocaleString()
+                          : 'Never logged in'}
+                      </small>
+                      {emp.loginHistory && emp.loginHistory.length > 0 && (
+                        <details className="mt-1">
+                          <summary style={{ cursor: 'pointer', fontSize: '13px', color: '#003876' }}>
+                            View all {emp.loginHistory.length} login(s)
+                          </summary>
+                          <ul className="small text-muted mt-1">
+                            {emp.loginHistory
+                              .slice()
+                              .reverse()
+                              .map((entry, idx) => (
+                                <li key={idx}>
+                                  {new Date(entry.loginAt).toLocaleString()}
+                                  {entry.ipAddress ? ` — IP: ${entry.ipAddress}` : ''}
+                                </li>
+                              ))}
+                          </ul>
+                        </details>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </>
         )}
       </div>

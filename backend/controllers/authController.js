@@ -78,6 +78,17 @@ const loginUser = async (req, res) => {
     }
 
     const token = generateToken(user._id);
+    // Record this login
+    const ipAddress = req.headers['x-forwarded-for'] || req.socket.remoteAddress || '';
+    user.lastLogin = new Date();
+    user.loginHistory.push({ loginAt: new Date(), ipAddress });
+
+    // Keep only the most recent 50 login records to prevent unlimited growth
+    if (user.loginHistory.length > 50) {
+      user.loginHistory = user.loginHistory.slice(-50);
+    }
+
+    await user.save();
 
     res.status(200).json({
       _id: user._id,

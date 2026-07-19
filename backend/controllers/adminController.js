@@ -48,5 +48,18 @@ const updateEmployee = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+// @desc    Get login history for all employees
+// @route   GET /api/admin/login-history
+const getLoginHistory = async (req, res) => {
+  try {
+    const users = await User.find()
+      .select('name empId email department lastLogin loginHistory')
+      .sort({ lastLogin: -1 });
 
-module.exports = { getAllEmployees, deleteEmployee, updateEmployee };
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { getAllEmployees, deleteEmployee, updateEmployee, getLoginHistory };
